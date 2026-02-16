@@ -27,6 +27,8 @@ export const HOME_APPS: AppInfo[][] = [
     { id: 'health', name: 'Health', icon: 'Heart', color: 'bg-red-500' },
     { id: 'files', name: 'Files', icon: 'FolderOpen', color: 'bg-blue-500' },
     { id: 'stocks', name: 'Stocks', icon: 'TrendingUp', color: 'bg-black' },
+    { id: 'portfolio', name: 'Portfolio', icon: 'Code', color: 'bg-gradient-to-br from-violet-500 to-blue-500' },
+    { id: 'reboot', name: 'Reboot', icon: 'Power', color: 'bg-gray-900' },
   ],
 ];
 

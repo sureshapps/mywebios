@@ -12,6 +12,9 @@ import { CameraApp } from '@/components/apps/CameraApp';
 import { PhotosApp } from '@/components/apps/PhotosApp';
 import { SafariApp } from '@/components/apps/SafariApp';
 import { FaceTimeApp } from '@/components/apps/FaceTimeApp';
+import { MusicApp } from '@/components/apps/MusicApp';
+import { PortfolioApp } from '@/components/apps/PortfolioApp';
+import { RebootApp } from '@/components/apps/RebootApp';
 import { AppLayout } from '@/components/ios/AppLayout';
 
 const PlaceholderApp = ({ name }: { name: string }) => (
@@ -36,8 +39,10 @@ const APP_COMPONENTS: Record<string, React.FC> = {
   photos: PhotosApp,
   safari: SafariApp,
   facetime: FaceTimeApp,
+  music: MusicApp,
+  portfolio: PortfolioApp,
+  reboot: RebootApp,
   phone: () => <PlaceholderApp name="Phone" />,
-  music: () => <PlaceholderApp name="Music" />,
   maps: () => <PlaceholderApp name="Maps" />,
   wallet: () => <PlaceholderApp name="Wallet" />,
   health: () => <PlaceholderApp name="Health" />,
