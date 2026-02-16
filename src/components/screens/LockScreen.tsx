@@ -9,7 +9,7 @@ import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 export const LockScreen = () => {
   const { time12, ampm, dateStr } = useTime();
   const { unlock } = useScreen();
-  const { wallpaper } = useTheme();
+  const { lockWallpaper } = useTheme();
   const y = useMotionValue(0);
   const opacity = useTransform(y, [-200, 0], [0, 1]);
   const scale = useTransform(y, [-200, 0], [0.95, 1]);
@@ -23,24 +23,18 @@ export const LockScreen = () => {
   return (
     <motion.div
       className="absolute inset-0 flex flex-col select-none overflow-hidden"
-      style={{ background: wallpaper }}
+      style={{ background: lockWallpaper }}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -50 }}
       transition={{ type: 'spring', damping: 30, stiffness: 300 }}
     >
-      {/* Glass overlay */}
       <div className="absolute inset-0 backdrop-blur-sm bg-black/10" />
-
       <div className="relative z-10 flex flex-col h-full">
         <StatusBar light />
-
         <motion.div className="flex-1 flex flex-col items-center pt-16" style={{ opacity, scale }}>
-          <div className="text-white text-7xl font-thin tracking-tight">
-            {time12}
-          </div>
+          <div className="text-white text-7xl font-thin tracking-tight">{time12}</div>
           <div className="text-white/80 text-lg mt-1">{dateStr}</div>
         </motion.div>
-
         <motion.div
           className="cursor-grab active:cursor-grabbing touch-none"
           drag="y"
@@ -68,7 +62,6 @@ export const LockScreen = () => {
             </button>
           </div>
         </motion.div>
-
         <HomeIndicator light />
       </div>
     </motion.div>

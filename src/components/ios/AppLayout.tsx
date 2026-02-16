@@ -25,10 +25,10 @@ export const AppLayout = ({ title, children, headerRight, noPadding, bgClass = '
   return (
     <motion.div
       className={`absolute inset-0 flex flex-col ${bgClass}`}
-      initial={{ x: '100%', opacity: 0.5 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: '100%', opacity: 0.5 }}
-      transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+      initial={{ scale: 0.3, opacity: 0, borderRadius: '16px' }}
+      animate={{ scale: 1, opacity: 1, borderRadius: '0px' }}
+      exit={{ scale: 0.3, opacity: 0, borderRadius: '16px' }}
+      transition={{ type: 'spring', damping: 28, stiffness: 280 }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.15}

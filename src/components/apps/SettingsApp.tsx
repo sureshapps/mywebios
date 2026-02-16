@@ -1,10 +1,10 @@
 import { AppLayout } from '@/components/ios/AppLayout';
-import { useTheme, getWallpapers } from '@/contexts/ThemeContext';
+import { useTheme, LOCK_WALLPAPERS, HOME_WALLPAPERS } from '@/contexts/ThemeContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { Wifi, Bluetooth, Moon, Bell, Battery, Shield, ChevronRight } from 'lucide-react';
+import { Wifi, Bluetooth, Moon, Bell, Shield } from 'lucide-react';
 
 export const SettingsApp = () => {
-  const { isDark, toggleDark, wallpaper, setWallpaper } = useTheme();
+  const { isDark, toggleDark, lockWallpaper, homeWallpaper, setLockWallpaper, setHomeWallpaper } = useTheme();
   const [wifi, setWifi] = useLocalStorage('ios-wifi', true);
   const [bt, setBt] = useLocalStorage('ios-bt', true);
   const [dnd, setDnd] = useLocalStorage('ios-dnd', false);
@@ -50,13 +50,27 @@ export const SettingsApp = () => {
         </div>
 
         <div>
-          <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-2">Wallpaper</h3>
-          <div className="grid grid-cols-3 gap-3">
-            {getWallpapers().map((w, i) => (
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-2">Lock Screen Wallpaper</h3>
+          <div className="grid grid-cols-5 gap-2">
+            {LOCK_WALLPAPERS.map((w, i) => (
               <button
                 key={i}
-                onClick={() => setWallpaper(w)}
-                className={`h-20 rounded-xl border-2 transition-all ${w === wallpaper ? 'border-primary scale-105' : 'border-transparent'}`}
+                onClick={() => setLockWallpaper(w)}
+                className={`h-20 rounded-xl border-2 transition-all ${w === lockWallpaper ? 'border-primary scale-105' : 'border-transparent'}`}
+                style={{ background: w }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-2">Home Screen Wallpaper</h3>
+          <div className="grid grid-cols-5 gap-2">
+            {HOME_WALLPAPERS.map((w, i) => (
+              <button
+                key={i}
+                onClick={() => setHomeWallpaper(w)}
+                className={`h-20 rounded-xl border-2 transition-all ${w === homeWallpaper ? 'border-primary scale-105' : 'border-transparent'}`}
                 style={{ background: w }}
               />
             ))}
