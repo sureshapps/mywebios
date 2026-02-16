@@ -10,7 +10,7 @@ import { Search } from 'lucide-react';
 
 export const HomeScreen = () => {
   const [page, setPage] = useState(0);
-  const { wallpaper } = useTheme();
+  const { homeWallpaper } = useTheme();
   const { navigate } = useScreen();
 
   const handleDrag = (_: any, info: PanInfo) => {
@@ -25,7 +25,7 @@ export const HomeScreen = () => {
   return (
     <motion.div
       className="absolute inset-0 flex flex-col select-none"
-      style={{ background: wallpaper }}
+      style={{ background: homeWallpaper }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -33,16 +33,12 @@ export const HomeScreen = () => {
       <div className="absolute inset-0 backdrop-blur-sm bg-black/5" />
       <div className="relative z-10 flex flex-col h-full">
         <StatusBar light />
-
-        {/* Search */}
         <div className="px-4 py-2">
           <div className="bg-white/15 backdrop-blur-xl rounded-xl px-3 py-2 flex items-center gap-2">
             <Search className="w-4 h-4 text-white/60" />
             <span className="text-white/50 text-sm">Search</span>
           </div>
         </div>
-
-        {/* App grid */}
         <motion.div
           className="flex-1 px-4 pt-2 touch-none"
           drag="x"
@@ -65,8 +61,6 @@ export const HomeScreen = () => {
             </motion.div>
           </AnimatePresence>
         </motion.div>
-
-        {/* Page dots */}
         <div className="flex justify-center gap-1.5 py-2">
           {HOME_APPS.map((_, i) => (
             <div
@@ -75,8 +69,6 @@ export const HomeScreen = () => {
             />
           ))}
         </div>
-
-        {/* Dock */}
         <div className="mx-3 mb-1 px-4 py-3 bg-white/15 backdrop-blur-2xl rounded-[28px]">
           <div className="grid grid-cols-4 gap-2">
             {DOCK_APPS.map((app) => (
@@ -84,7 +76,6 @@ export const HomeScreen = () => {
             ))}
           </div>
         </div>
-
         <HomeIndicator light />
       </div>
     </motion.div>

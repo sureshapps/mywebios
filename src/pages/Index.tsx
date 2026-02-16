@@ -26,10 +26,9 @@ const IOSSimulator = () => {
   return (
     <ThemeProvider>
       <ScreenProvider>
-        <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-          {/* iPhone frame for desktop */}
-          <div className="relative w-full max-w-[393px] h-[852px] max-h-[95vh] bg-black rounded-[50px] shadow-2xl shadow-black/50 overflow-hidden border-[3px] border-gray-800 md:w-[393px]">
-            {/* Screen area */}
+        <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
+          {/* iPhone frame — fills viewport on mobile, capped at iPhone 15 Pro aspect on desktop */}
+          <div className="relative w-full h-full max-w-[430px] max-h-[932px] bg-black rounded-[50px] shadow-2xl shadow-black/50 overflow-hidden border-[3px] border-gray-800">
             <div className="absolute inset-[3px] rounded-[47px] overflow-hidden">
               <ScreenRouter />
             </div>

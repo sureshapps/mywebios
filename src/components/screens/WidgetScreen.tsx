@@ -3,13 +3,27 @@ import { HomeIndicator } from '@/components/ios/HomeIndicator';
 import { useTime } from '@/hooks/useTime';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useScreen } from '@/contexts/ScreenContext';
+import { useWeather, getWeatherIcon } from '@/hooks/useWeather';
 import { motion, PanInfo } from 'framer-motion';
-import { Cloud, Sun, Droplets, Wind } from 'lucide-react';
+import { Cloud, Sun, CloudRain, CloudSnow, CloudLightning, Loader2 } from 'lucide-react';
+
+const WeatherIconSmall = ({ code, className }: { code: number; className?: string }) => {
+  const type = getWeatherIcon(code);
+  const cn = className || 'w-4 h-4';
+  switch (type) {
+    case 'sun': return <Sun className={`${cn} text-yellow-400`} />;
+    case 'rain': return <CloudRain className={`${cn} text-white/60`} />;
+    case 'snow': return <CloudSnow className={`${cn} text-white/60`} />;
+    case 'storm': return <CloudLightning className={`${cn} text-white/60`} />;
+    default: return <Cloud className={`${cn} text-white/60`} />;
+  }
+};
 
 export const WidgetScreen = () => {
-  const { time12, ampm, dateStr, now } = useTime();
-  const { wallpaper } = useTheme();
+  const { time12, ampm, dateStr } = useTime();
+  const { homeWallpaper } = useTheme();
   const { goHome } = useScreen();
+  const { data: weather, loading: weatherLoading } = useWeather();
 
   const handleDrag = (_: any, info: PanInfo) => {
     if (info.offset.x > 80 && info.velocity.x > 200) {
@@ -26,7 +40,7 @@ export const WidgetScreen = () => {
   return (
     <motion.div
       className="absolute inset-0 flex flex-col select-none"
-      style={{ background: wallpaper }}
+      style={{ background: homeWallpaper }}
       initial={{ x: '100%' }}
       animate={{ x: 0 }}
       exit={{ x: '100%' }}
@@ -35,7 +49,6 @@ export const WidgetScreen = () => {
       <div className="absolute inset-0 backdrop-blur-xl bg-black/20" />
       <div className="relative z-10 flex flex-col h-full">
         <StatusBar light />
-
         <motion.div
           className="flex-1 overflow-y-auto px-4 py-4 space-y-4 touch-none"
           drag="x"
@@ -47,23 +60,33 @@ export const WidgetScreen = () => {
 
           {/* Weather Widget */}
           <div className="bg-white/15 backdrop-blur-2xl rounded-2xl p-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-white/60 text-sm">My Location</p>
-                <p className="text-white text-4xl font-light mt-1">72°</p>
-                <p className="text-white/60 text-xs mt-1">Mostly Cloudy</p>
+            {weatherLoading ? (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="w-6 h-6 text-white/60 animate-spin" />
               </div>
-              <Cloud className="w-10 h-10 text-white/80" />
-            </div>
-            <div className="flex justify-between mt-4 pt-3 border-t border-white/10">
-              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day, i) => (
-                <div key={day} className="flex flex-col items-center gap-1">
-                  <span className="text-white/50 text-xs">{day}</span>
-                  {i % 2 === 0 ? <Sun className="w-4 h-4 text-yellow-400" /> : <Cloud className="w-4 h-4 text-white/60" />}
-                  <span className="text-white text-xs">{68 + i * 2}°</span>
+            ) : weather ? (
+              <>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-white/60 text-sm">Weather</p>
+                    <p className="text-white text-4xl font-light mt-1">{weather.temperature}°</p>
+                    <p className="text-white/60 text-xs mt-1">{weather.condition}</p>
+                  </div>
+                  <WeatherIconSmall code={weather.weatherCode} className="w-10 h-10" />
                 </div>
-              ))}
-            </div>
+                <div className="flex justify-between mt-4 pt-3 border-t border-white/10">
+                  {weather.daily.slice(0, 5).map((d) => (
+                    <div key={d.day} className="flex flex-col items-center gap-1">
+                      <span className="text-white/50 text-xs">{d.day.slice(0, 3)}</span>
+                      <WeatherIconSmall code={d.code} />
+                      <span className="text-white text-xs">{d.high}°</span>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p className="text-white/50 text-sm text-center py-4">Weather unavailable</p>
+            )}
           </div>
 
           {/* Clock Widget */}
@@ -121,7 +144,6 @@ export const WidgetScreen = () => {
             </div>
           </div>
         </motion.div>
-
         <HomeIndicator light />
       </div>
     </motion.div>
