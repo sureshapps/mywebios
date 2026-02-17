@@ -1,8 +1,10 @@
 import { useTime } from '@/hooks/useTime';
 import { Signal, Wifi, Battery } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const StatusBar = ({ light = false }: { light?: boolean }) => {
   const { time24 } = useTime();
+  const navigate = useNavigate();
   const color = light ? 'text-white' : 'text-foreground';
 
   return (
@@ -12,7 +14,9 @@ export const StatusBar = ({ light = false }: { light?: boolean }) => {
       <div className="flex items-center gap-1 w-16 justify-end">
         <Signal className="w-3.5 h-3.5" />
         <Wifi className="w-3.5 h-3.5" />
-        <Battery className="w-5 h-3.5" />
+        <button onClick={() => navigate('/admin')} className="hover:opacity-70 transition-opacity">
+          <Battery className="w-5 h-3.5" />
+        </button>
       </div>
     </div>
   );
